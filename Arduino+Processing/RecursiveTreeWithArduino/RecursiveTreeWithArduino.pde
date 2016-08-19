@@ -12,25 +12,28 @@ import cc.arduino.*; // reference the arduino library
 Arduino arduino; // create a variable arduino of the Arduino data type
 
 float theta;
+float multiple;
 
 void setup() 
 {
-  size(200,200);
+  size(500,500);
   smooth();
   println(Serial.list()); // List all the available serial ports:
-  arduino = new Arduino(this, "COM20", 57600);
+  arduino = new Arduino(this, "COM15", 57600);
 }
 
-void draw() 
+void draw()
 {
-  background(0);
+  color Quswar = color(100,200,150);
+  color RGBColor = color(arduino.analogRead(0)*5, arduino.analogRead(0)*2, arduino.analogRead(0)/6);
+  background(Quswar);
   frameRate(30);
   stroke(255);
   // Let's pick an angle 0 to 90 degrees based on the mouse position
 /* float a = (mouseX / (float) width) * 90f; // original line */
-
-float a = (arduino.analogRead(0) / (float) width) * 90f;
-
+float a = map(arduino.analogRead(0),0,1024,0,90);
+//float a = (arduino.analogRead(0) / (float) width) * 90f;
+println(a);
  // Convert it to radians
   theta = radians(a);
   // Start the tree from the bottom of the screen
@@ -40,8 +43,8 @@ float a = (arduino.analogRead(0) / (float) width) * 90f;
   // Move to the end of that line
   translate(0,-60);
   // Start the recursive branching!
-  branch(60);
-
+//  branch(arduino.analogRead(0));
+  branch(a+a);
 }
 
 void branch(float h) 
